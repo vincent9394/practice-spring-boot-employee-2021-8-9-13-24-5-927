@@ -1,5 +1,7 @@
-package com.thoughtworks.springbootemployee;
+package com.thoughtworks.springbootemployee.repository;
 
+import com.thoughtworks.springbootemployee.entity.Employee;
+import com.thoughtworks.springbootemployee.exception.EmployeeNotFoundException;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
