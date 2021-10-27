@@ -49,7 +49,7 @@ public class EmployeeController {
 
     // delete
     @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)  // Code=204
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteById(@PathVariable Integer id) {
         this.employeeRepository.deleteById(id);
     }

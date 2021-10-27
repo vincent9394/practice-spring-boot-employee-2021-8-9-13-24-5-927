@@ -1,6 +1,5 @@
 package com.thoughtworks.springbootemployee;
 
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
@@ -14,9 +13,6 @@ public class EmployeeRepository {
     private final List<Employee> employees = new ArrayList<>();
 
     public EmployeeRepository() {
-        employees.add(
-                new Employee(1, "vincent", 18, "male", 12345)
-        );
     }
 
     public List<Employee> findAll() {
@@ -38,8 +34,11 @@ public class EmployeeRepository {
                 .collect(Collectors.toList());
     }
 
+    //TODO formatting
     public PageImpl<Employee> findPagingEmployees(Pageable pageable) {
-        List<Employee> page = this.employees.stream().skip((long) pageable.getPageNumber() * pageable.getPageSize()).limit(pageable.getPageSize()).collect(Collectors.toList());
+        List<Employee> page = this.employees
+                .stream()
+                .skip((long) pageable.getPageNumber() * pageable.getPageSize()).limit(pageable.getPageSize()).collect(Collectors.toList());
         return new PageImpl<>(page, pageable, this.employees.size());
     }
 
@@ -54,8 +53,10 @@ public class EmployeeRepository {
         return employee;
     }
 
+    //TODO delete function
     public void deleteById(Integer id) {
         Employee employee = this.findById(id);
+        this.employees.remove(employee);
     }
 
     public Employee save(Integer id, Employee updatedEmployee) {
