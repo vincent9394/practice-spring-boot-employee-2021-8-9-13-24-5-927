@@ -42,7 +42,6 @@ class EmployeeServiceTest {
         Employee actual = employeeService.findById(1);
         //then
         assertEquals(employee,actual);
-
     }
 
     @Test
@@ -59,8 +58,21 @@ class EmployeeServiceTest {
         List<Employee> actual = employeeService.findByGender("male");
         //then
         assertEquals(employees,actual);
-
     }
+
+    @Test
+    void should_create_employee_when_add_employee_given_employee_Info(){
+        //given
+        EmployeeRepository employeeRepository = Mockito.mock(EmployeeRepository.class);
+        EmployeeService employeeService = new EmployeeService(employeeRepository);
+        Employee employee = new Employee("vincent",18, "male",100);
+        when(employeeRepository.createEmployee(employee)).thenReturn(employee);
+        //when
+        Employee actual = employeeService.createEmployee(employee);
+        //then
+        assertEquals(employee,actual);
+    }
+
 
 
 

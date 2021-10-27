@@ -37,7 +37,7 @@ public class EmployeeController {
     // /employees?gender=male
     @GetMapping(params = "gender")
     public List<Employee> findByGender(@RequestParam String gender) {
-        return this.employeeRepository.findByGender(gender);
+        return this.employeeService.findByGender(gender);
     }
 
     // /employees?page=1&pageSize=5
