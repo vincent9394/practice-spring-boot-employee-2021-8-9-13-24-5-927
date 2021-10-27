@@ -5,6 +5,7 @@ import com.thoughtworks.springbootemployee.repository.EmployeeRepository;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.omg.CORBA.NO_IMPLEMENT;
+import org.springframework.test.context.TestExecutionListeners;
 
 import java.util.Arrays;
 import java.util.List;
@@ -25,7 +26,7 @@ class EmployeeServiceTest {
             when(employeeRepository.findAll()).thenReturn(employees);
 
             //when
-            List<Employee> actual = employeeService.findall();
+            List<Employee> actual = employeeService.findAll();
 
             //then
             assertEquals(employees,actual);
@@ -42,6 +43,25 @@ class EmployeeServiceTest {
         //then
         assertEquals(employee,actual);
     }
+
+    @Test
+    void should_return_male_employee_when_find_employee_gender_given_employee(){
+            //given
+        EmployeeRepository employeeRepository = Mockito.mock(EmployeeRepository.class);
+        EmployeeService employeeService = new EmployeeService(employeeRepository);
+        List<Employee> employees = Arrays.asList(
+                new Employee("vincentAC1", 18, "male", 12345),
+                new Employee("vincent2AC1", 18, "female", 12345)
+        );
+        when(employeeRepository.findByGender("male")).thenReturn(employees);
+        //when
+        List<Employee> actual = employeeService.findByGender("male");
+        //then
+        assertEquals(employees,actual);
+
+    }
+
+
 
 
 }

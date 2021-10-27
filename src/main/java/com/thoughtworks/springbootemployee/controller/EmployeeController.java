@@ -2,6 +2,7 @@ package com.thoughtworks.springbootemployee.controller;
 
 import com.thoughtworks.springbootemployee.entity.Employee;
 import com.thoughtworks.springbootemployee.repository.EmployeeRepository;
+import com.thoughtworks.springbootemployee.service.EmployeeService;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -15,20 +16,22 @@ import java.util.List;
 @RequestMapping("/employees")
 public class EmployeeController {
     private final EmployeeRepository employeeRepository;
+    private final EmployeeService employeeService;
 
-    public EmployeeController(EmployeeRepository employeeRepository) {
+    public EmployeeController(EmployeeRepository employeeRepository, EmployeeService employeeService) {
         this.employeeRepository = employeeRepository;
+        this.employeeService = employeeService;
     }
 
     @GetMapping
     public List<Employee> findAllEmployees() {
-        return this.employeeRepository.findAll();
+        return this.employeeService.findAll();
     }
 
     // /employees/{id}
     @GetMapping("/{id}")
     public Employee findById(@PathVariable Integer id) {
-        return this.employeeRepository.findById(id);
+        return this.employeeService.findById(id);
     }
 
     // /employees?gender=male
