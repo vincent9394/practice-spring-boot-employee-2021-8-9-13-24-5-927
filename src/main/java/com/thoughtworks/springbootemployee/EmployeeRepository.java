@@ -65,4 +65,7 @@ public class EmployeeRepository {
         return updatedEmployee;
     }
 
+    public void deleteAll() {
+        this.employees.clear();
+    }
 }
