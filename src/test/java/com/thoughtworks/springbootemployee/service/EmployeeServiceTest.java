@@ -3,7 +3,12 @@ package com.thoughtworks.springbootemployee.service;
 import com.thoughtworks.springbootemployee.entity.Employee;
 import com.thoughtworks.springbootemployee.repository.EmployeeRepository;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Bean;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.Arrays;
 import java.util.List;
@@ -12,18 +17,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.when;
 
+@ExtendWith(SpringExtension.class)
 class EmployeeServiceTest {
-
-
-//    @Autowired
-//   private EmployeeService employeeService;
-//   private EmployeeRepository employeeRepository;
+//    @Mock
+//    private EmployeeRepository employeeRepository;
+//    private EmployeeService employeeService ;
 //
-//    @BeforeEach
-//    void clearData() {
-//        this.employeeService.deleteAll();
-//        this.employeeRepository.deleteAll();
-//    }
 
     @Test
     void should_return_all_employees_when_find_all_given_2_employees() {
@@ -71,6 +70,22 @@ class EmployeeServiceTest {
         //then
         assertEquals(employees, actual);
     }
+
+//    @Test
+//    void should_return_page_of_employee_when_get_page_given_page_number_and_size() {
+//        //given
+//        EmployeeRepository employeeRepository = Mockito.mock(EmployeeRepository.class);
+//        EmployeeService employeeService = new EmployeeService(employeeRepository);
+//        List<Employee> employees = Arrays.asList(
+//                new Employee("vincentAC1", 18, "male", 12345),
+//                new Employee("vincent2AC1", 18, "female", 12345)
+//        );
+//        when(employeeRepository.findPagingEmployees()).thenReturn(employees);
+//        //when
+//
+//
+//        //then
+//    }
 
     @Test
     void should_create_employee_when_add_employee_given_employee_Info() {
