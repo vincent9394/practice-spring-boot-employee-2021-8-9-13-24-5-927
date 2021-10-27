@@ -58,6 +58,9 @@ public class EmployeeController {
     @PutMapping("/{id}")
     public Employee editEmployee(@PathVariable Integer id, @RequestBody Employee updatedEmployee) {
         Employee originEmployee = this.employeeRepository.findById(id);
+        if (updatedEmployee.getName() != null) {
+            originEmployee.setName(updatedEmployee.getName());
+        }
         if (updatedEmployee.getAge() != null) {
             originEmployee.setAge(updatedEmployee.getAge());
         }

@@ -14,6 +14,11 @@ public class Employee {
         this.salary = salary;
     }
 
+    public Employee(String gender){
+
+        this.gender = gender;
+    }
+
     public void setId(Integer id) {
         this.id = id;
     }

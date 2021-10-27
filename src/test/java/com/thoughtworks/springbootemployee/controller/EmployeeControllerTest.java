@@ -2,17 +2,16 @@ package com.thoughtworks.springbootemployee.controller;
 
 import com.thoughtworks.springbootemployee.Employee;
 import com.thoughtworks.springbootemployee.EmployeeRepository;
-import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -126,17 +125,19 @@ public class EmployeeControllerTest {
     @Test
     void should_add_one_employee_when_post_given_employee_info() throws Exception {
         //given
-        Employee employee = new Employee("vincentAC4", 18, "male", 12345);
-//        JSONObject employee = "{\n" +
-//                "        \"name\": \"VincentAC4\",\n" +
-//                "        \"age\": 18,\n" +
-//                "        \"gender\": \"male\",\n" +
-//                "        \"salary\": 1000000\n" +
-//                "    }";
-        employeeRepository.createEmployee(employee);
+//        Employee employee = new Employee("vincentAC4", 18, "male", 12345);
+        String employee = "{\n" +
+                "        \"name\": \"vincentAC4\",\n" +
+                "        \"age\": 18,\n" +
+                "        \"gender\": \"male\",\n" +
+                "        \"salary\": 12345\n" +
+                "    }";
+//        employeeRepository.createEmployee(employee);
 
         //when
-        ResultActions resultActions = mockMvc.perform(post("/employees"));
+        ResultActions resultActions = mockMvc.perform(post("/employees").
+                contentType(MediaType.APPLICATION_JSON)
+                .content(employee));
 
         //then
         String expected =
@@ -147,6 +148,51 @@ public class EmployeeControllerTest {
                         "        \"gender\": \"male\",\n" +
                         "        \"salary\": 12345\n" +
                         "    }\n";
-        resultActions.andExpect(status().isCreated()).andExpect(content().json(expected));
+        resultActions.andExpect(status().isOk()).andExpect(content().json(expected));
+    }
+
+    @Test
+    void should_update_one_employee_when_put_given_employee_info() throws Exception {
+        //given
+        Employee employee1 = new Employee("vincent2AC3", 18, "male", 12345);
+        employeeRepository.createEmployee(employee1);
+        String employee = "{\n" +
+                "        \"name\": \"vincentAC5\",\n" +
+                "        \"age\": 18,\n" +
+                "        \"gender\": \"male\",\n" +
+                "        \"salary\": 12345\n" +
+                "    }";
+//        employeeRepository.createEmployee(employee);
+
+        //when
+        ResultActions resultActions = mockMvc.perform(put("/employees/1").
+                contentType(MediaType.APPLICATION_JSON)
+                .content(employee));
+
+        //then
+        String expected =
+                "    {\n" +
+                        "        \"id\": 1,\n" +
+                        "        \"name\": \"vincentAC5\",\n" +
+                        "        \"age\": 18,\n" +
+                        "        \"gender\": \"male\",\n" +
+                        "        \"salary\": 12345\n" +
+                        "    }\n";
+        resultActions.andExpect(status().isOk()).andExpect(content().json(expected));
+    }
+
+    @Test
+    void should_delete_one_employee_when_put_given_employee_id() throws Exception {
+        //given
+        Employee employee1 = new Employee("vincent2AC3", 18, "male", 12345);
+        employeeRepository.createEmployee(employee1);
+
+
+        //when
+        ResultActions resultActions = mockMvc.perform(delete("/employees/1"));
+
+        //then
+
+        resultActions.andExpect(status().isNoContent());
     }
 }
