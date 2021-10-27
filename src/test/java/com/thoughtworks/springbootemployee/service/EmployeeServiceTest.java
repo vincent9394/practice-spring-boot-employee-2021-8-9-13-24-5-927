@@ -8,13 +8,16 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
@@ -71,21 +74,28 @@ class EmployeeServiceTest {
         assertEquals(employees, actual);
     }
 
-//    @Test
-//    void should_return_page_of_employee_when_get_page_given_page_number_and_size() {
-//        //given
-//        EmployeeRepository employeeRepository = Mockito.mock(EmployeeRepository.class);
-//        EmployeeService employeeService = new EmployeeService(employeeRepository);
-//        List<Employee> employees = Arrays.asList(
-//                new Employee("vincentAC1", 18, "male", 12345),
-//                new Employee("vincent2AC1", 18, "female", 12345)
-//        );
-//        when(employeeRepository.findPagingEmployees()).thenReturn(employees);
-//        //when
-//
-//
-//        //then
-//    }
+    @Test
+    void should_return_page_of_employee_when_get_page_given_page_number_and_size() {
+        //given
+        EmployeeRepository employeeRepository = Mockito.mock(EmployeeRepository.class);
+        EmployeeService employeeService = new EmployeeService(employeeRepository);
+        List<Employee> employees = Arrays.asList(
+                new Employee("vincentAC1", 18, "male", 12345),
+                new Employee("vincent2AC1", 18, "female", 12345)
+        );
+        Pageable pageable= PageRequest.of(0, 2);
+        PageImpl<Employee> content = new PageImpl<Employee>(employees, pageable, employees.size());
+        when(employeeRepository.findPagingEmployees(pageable)).thenReturn(content);
+        //when
+        PageImpl<Employee> actual = employeeService.findPagingEmployees(pageable);
+
+        //then
+//        assertNotNull(actual);
+        System.out.println("-------Actual is : "+actual);
+
+
+    }
+
 
     @Test
     void should_create_employee_when_add_employee_given_employee_Info() {
