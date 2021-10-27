@@ -72,7 +72,7 @@ public class EmployeeController {
         if (updatedEmployee.getSalary() != null) {
             originEmployee.setSalary(updatedEmployee.getSalary());
         }
-        return this.employeeService.saveEmployee(id, originEmployee);
+        return this.employeeService.updateEmployee(id, originEmployee);
     }
 
 }

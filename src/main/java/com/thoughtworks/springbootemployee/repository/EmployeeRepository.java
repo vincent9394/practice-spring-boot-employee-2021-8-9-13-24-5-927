@@ -61,7 +61,7 @@ public class EmployeeRepository {
         this.employees.remove(employee);
     }
 
-    public Employee save(Integer id, Employee updatedEmployee) {
+    public Employee updateEmployee(Integer id, Employee updatedEmployee) {
         this.deleteById(id);
         this.employees.add(updatedEmployee);
         return updatedEmployee;

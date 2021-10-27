@@ -11,13 +11,16 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
+import java.util.Arrays;
+import java.util.List;
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
 public class EmployeeControllerTest {
+
 
     @Autowired
     private MockMvc mockMvc;
@@ -29,6 +32,7 @@ public class EmployeeControllerTest {
     void setUp() {
         employeeRepository.deleteAll();
     }
+
 
     @Test
     void should_return_all_employees_when_find_all_given_two_employees() throws Exception {
@@ -103,25 +107,30 @@ public class EmployeeControllerTest {
         resultActions.andExpect(status().isOk()).andExpect(content().json(expected));
     }
 
-    //    @Test
-//    void should_return_employee_page_when_find_page_given_page_and_page_size() throws Exception {
-//        //given
-//        Employee employee = new Employee("vincentAC3", 18, "male", 12345);
-//        employeeRepository.createEmployee(employee);
-//        //when
-//        ResultActions resultActions = mockMvc.perform(get("/employees?page=1&pageSize=5"));
-//
-//        //then
-//        String expected =
-//                "   [ {\n" +
-//                        "        \"id\": 1,\n" +
-//                        "        \"name\": \"vincentAC3\",\n" +
-//                        "        \"age\": 18,\n" +
-//                        "        \"gender\": \"male\",\n" +
-//                        "        \"salary\": 12345\n" +
-//                        "    }]";
-//        resultActions.andExpect(status().isOk()).andExpect(content().json(expected));
-//    }
+
+    @Test
+    void should_return_employee_page_when_find_page_given_page_and_page_size() throws Exception {
+        //given
+
+        Employee employee1 = employeeRepository.createEmployee(new Employee("vincent1", 18, "male", 1000000));
+        Employee employee2 = employeeRepository.createEmployee(new Employee("vincent2", 18, "male", 1000000));
+        Employee employee3 = employeeRepository.createEmployee(new Employee("vincent3", 18, "male", 1000000));
+
+        //when
+        ResultActions resultActions = mockMvc.perform(get("/employees?page=1&size=2"));
+
+        //then
+
+        resultActions
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.content[0].id").value(employee3.getId()))
+                .andExpect(jsonPath("$.content[0].name").value(employee3.getName()))
+                .andExpect(jsonPath("$.content[0].age").value(employee3.getAge()))
+                .andExpect(jsonPath("$.content[0].gender").value(employee3.getGender()))
+                .andExpect(jsonPath("$.content[0].salary").value(employee3.getSalary()));
+
+    }
+
     @Test
     void should_add_one_employee_when_post_given_employee_info() throws Exception {
         //given
