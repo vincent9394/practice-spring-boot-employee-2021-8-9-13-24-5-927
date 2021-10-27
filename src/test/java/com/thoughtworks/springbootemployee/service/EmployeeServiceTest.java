@@ -4,11 +4,7 @@ import com.thoughtworks.springbootemployee.entity.Employee;
 import com.thoughtworks.springbootemployee.repository.EmployeeRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Bean;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -17,7 +13,8 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
@@ -83,7 +80,7 @@ class EmployeeServiceTest {
                 new Employee("vincentAC1", 18, "male", 12345),
                 new Employee("vincent2AC1", 18, "female", 12345)
         );
-        Pageable pageable= PageRequest.of(0, 2);
+        Pageable pageable = PageRequest.of(0, 2);
         PageImpl<Employee> content = new PageImpl<Employee>(employees, pageable, employees.size());
         when(employeeRepository.findPagingEmployees(pageable)).thenReturn(content);
         //when
@@ -91,7 +88,7 @@ class EmployeeServiceTest {
 
         //then
 //        assertNotNull(actual);
-        System.out.println("-------Actual is : "+actual);
+        System.out.println("-------Actual is : " + actual);
 
 
     }
