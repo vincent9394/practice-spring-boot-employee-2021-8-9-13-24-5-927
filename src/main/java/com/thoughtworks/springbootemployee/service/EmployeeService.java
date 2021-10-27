@@ -32,4 +32,8 @@ public class EmployeeService {
     public Employee saveEmployee(Integer id, Employee employeeNew) {
         return employeeRepository.save(id,employeeNew);
     }
+
+    public void deleteEmployee(Integer id) {
+       this.employeeRepository.deleteById(id);
+    }
 }
