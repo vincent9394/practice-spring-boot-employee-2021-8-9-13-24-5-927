@@ -72,6 +72,23 @@ class EmployeeServiceTest {
         //then
         assertEquals(employee,actual);
     }
+    @Test
+    void should_update_employee_when_update_employee_given_new_employee_Info_employee_id(){
+        //given
+        EmployeeRepository employeeRepository = Mockito.mock(EmployeeRepository.class);
+        EmployeeService employeeService = new EmployeeService(employeeRepository);
+        Employee employee = new Employee("vincent",18, "male",100);
+        employeeRepository.createEmployee(employee);
+        Employee employeeNew = new Employee("vincent",18, "male",100);
+
+        Integer id = 1;
+        when(employeeRepository.save(id,employeeNew)).thenReturn(employeeNew);
+        //when
+        Employee actual = employeeService.saveEmployee(id,employeeNew);
+        //then
+        assertEquals(employeeNew,actual);
+    }
+
 
 
 

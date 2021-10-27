@@ -49,7 +49,7 @@ public class EmployeeController {
     // post
     @PostMapping
     public Employee createEmployee(@RequestBody Employee employee) {
-        return this.employeeRepository.createEmployee(employee);
+        return this.employeeService.createEmployee(employee);
     }
 
     // delete

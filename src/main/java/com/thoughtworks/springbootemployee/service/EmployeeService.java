@@ -28,4 +28,8 @@ public class EmployeeService {
     public Employee createEmployee(Employee employee) {
         return employeeRepository.createEmployee(employee);
     }
+
+    public Employee saveEmployee(Integer id, Employee employeeNew) {
+        return employeeRepository.save(id,employeeNew);
+    }
 }
