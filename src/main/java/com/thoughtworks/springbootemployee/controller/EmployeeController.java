@@ -35,14 +35,14 @@ public class EmployeeController {
 //    // /employees?gender=male
     @GetMapping(params = "gender")
     public List<Employee> findByGender(@RequestParam String gender) {
-        return this.employeeService.findByGender(gender);
+        return this.employeeService.findAllByGender(gender);
     }
 
-//    // /employees?page=1&pageSize=5
-//    @GetMapping(params = {"page", "size"})
-//    public PageImpl<Employee> findByPageAndPageSize(@PageableDefault Pageable pageable) {
-//        return this.employeeService.findPagingEmployees(pageable);
-//    }
+    // /employees?page=1&pageSize=5
+    @GetMapping(params = {"page", "size"})
+    public PageImpl<Employee> findByPageAndPageSize(@PageableDefault Pageable pageable) {
+        return this.employeeService.findPagingEmployees(pageable);
+    }
 //
 //    // post
     @PostMapping
@@ -50,26 +50,23 @@ public class EmployeeController {
         return this.employeeService.createEmployee(employee);
     }
 
-//    // delete
-//    @DeleteMapping("/{id}")
-//    @ResponseStatus(HttpStatus.NO_CONTENT)
-//    public void deleteById(@PathVariable Integer id) {
-//        this.employeeRepository.deleteById(id);
-//    }
+    // delete
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteById(@PathVariable Integer id) {
+        this.employeeService.deleteEmployee(id);
+    }
+
+    @DeleteMapping
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteAllEmployees() {
+        this.employeeService.deleteAllEmployee();
+    }
 //
-//    // Put
-//    @PutMapping("/{id}")
-//    public Employee editEmployee(@PathVariable Integer id, @RequestBody Employee updatedEmployee) {
-//        Employee originEmployee = this.employeeRepository.findById(id);
-//        if (updatedEmployee.getName() != null) {
-//            originEmployee.setName(updatedEmployee.getName());
-//        }
-//        if (updatedEmployee.getAge() != null) {
-//            originEmployee.setAge(updatedEmployee.getAge());
-//        }
-//        if (updatedEmployee.getSalary() != null) {
-//            originEmployee.setSalary(updatedEmployee.getSalary());
-//        }
-//        return this.employeeService.updateEmployee(id, originEmployee);
-//    }
+    // Put
+    @PutMapping("/{id}")
+    public Employee editEmployee(@PathVariable Integer id, @RequestBody Employee updatedEmployee) {
+
+        return this.employeeService.updateEmployee(id, updatedEmployee);
+    }
 }

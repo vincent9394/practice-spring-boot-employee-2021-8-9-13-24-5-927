@@ -11,11 +11,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-//@Repository
+@Repository
 public interface EmployeeRepository
          extends JpaRepository<Employee, Integer> {
 
     List<Employee> findAllByGender(String gender);
+    PageImpl<Employee> findAll(Pageable pageable);
+//    List<Employee> findAllByCompanyId(Integer id);
 
 }
 
