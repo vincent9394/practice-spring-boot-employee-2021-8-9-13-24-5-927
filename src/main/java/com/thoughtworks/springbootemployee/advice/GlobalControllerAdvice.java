@@ -9,6 +9,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class GlobalControllerAdvice {
     @ExceptionHandler({CompanyNotFoundException.class, EmployeeNotFoundException.class})
     public ErrorResponse notFoundExceptionHandle(Exception exception){
-        return new ErrorResponse(404, "Not Found");
+        return new ErrorResponse(010, "Global Advice Something Not Found");
     }
 }

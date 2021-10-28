@@ -40,7 +40,6 @@ public class EmployeeControllerTest {
         employeeRepository.createEmployee(employee2);
         //when
         ResultActions resultActions = mockMvc.perform(get("/employees"));
-
         //then
         String expected = "[\n" +
                 "    {\n" +
@@ -66,10 +65,8 @@ public class EmployeeControllerTest {
         //given
         Employee employee = new Employee("vincentAC2", 18, "male", 12345);
         employeeRepository.createEmployee(employee);
-
         //when
         ResultActions resultActions = mockMvc.perform(get("/employees/1"));
-
         //then
         String expected =
                 "    {\n" +
@@ -79,7 +76,9 @@ public class EmployeeControllerTest {
                         "        \"gender\": \"male\",\n" +
                         "        \"salary\": 12345\n" +
                         "    }\n";
-        resultActions.andExpect(status().isOk()).andExpect(content().json(expected));
+        resultActions
+                .andExpect(status().isOk())
+                .andExpect(content().json(expected));
     }
 
     @Test
