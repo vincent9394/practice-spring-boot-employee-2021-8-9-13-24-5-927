@@ -9,6 +9,7 @@ public class Company {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer companyId;
+
     private String companyName;
 
     @OneToMany(mappedBy = "company_id")

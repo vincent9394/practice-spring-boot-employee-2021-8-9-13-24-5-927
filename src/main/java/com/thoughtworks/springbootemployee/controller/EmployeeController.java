@@ -1,7 +1,6 @@
 package com.thoughtworks.springbootemployee.controller;
 
 import com.thoughtworks.springbootemployee.entity.Employee;
-import com.thoughtworks.springbootemployee.repository.EmployeeRepository;
 import com.thoughtworks.springbootemployee.service.EmployeeService;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -31,7 +30,8 @@ public class EmployeeController {
     public Employee findById(@PathVariable Integer id) {
         return this.employeeService.findById(id);
     }
-//
+
+    //
 //    // /employees?gender=male
     @GetMapping(params = "gender")
     public List<Employee> findByGender(@RequestParam String gender) {
@@ -43,7 +43,8 @@ public class EmployeeController {
     public PageImpl<Employee> findByPageAndPageSize(@PageableDefault Pageable pageable) {
         return this.employeeService.findPagingEmployees(pageable);
     }
-//
+
+    //
 //    // post
     @PostMapping
     public Employee createEmployee(@RequestBody Employee employee) {
@@ -62,7 +63,8 @@ public class EmployeeController {
     public void deleteAllEmployees() {
         this.employeeService.deleteAllEmployee();
     }
-//
+
+    //
     // Put
     @PutMapping("/{id}")
     public Employee editEmployee(@PathVariable Integer id, @RequestBody Employee updatedEmployee) {

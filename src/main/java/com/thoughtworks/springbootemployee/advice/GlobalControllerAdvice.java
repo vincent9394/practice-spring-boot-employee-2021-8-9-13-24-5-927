@@ -15,7 +15,7 @@ public class GlobalControllerAdvice {
             EmployeeNotFoundException.class
     })
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ErrorResponse notFoundExceptionHandle(Exception exception){
+    public ErrorResponse notFoundExceptionHandle(Exception exception) {
         return new ErrorResponse(999, "Global Advice Something Not Found");
     }
 }
