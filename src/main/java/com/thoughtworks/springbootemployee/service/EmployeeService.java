@@ -37,7 +37,7 @@ public class EmployeeService {
     }
 
     public Employee updateEmployee(Integer id, Employee updatedEmployee) {
-        Employee originEmployee = this.employeeRepository.save(updatedEmployee);
+        Employee originEmployee = this.employeeRepository.findById(id).orElseThrow(EmployeeNotFoundException::new);
         if (updatedEmployee.getName() != null) {
             originEmployee.setName(updatedEmployee.getName());
         }

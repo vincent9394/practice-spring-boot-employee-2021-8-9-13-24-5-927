@@ -16,7 +16,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(SpringExtension.class)
 class EmployeeServiceTest {
@@ -106,9 +106,9 @@ class EmployeeServiceTest {
         employeeRepository.save(employee);
         Employee employeeNew = new Employee("vincent1", 18, "male", 100);
         Integer id = 1;
-        when(employeeRepository.save(employee)).thenReturn(employeeNew);
+        when(employeeRepository.save(employeeNew)).thenReturn(employee);
         //when
-        Employee actual = employeeService.updateEmployee(id, employee);
+        Employee actual = employeeService.updateEmployee(id, employeeNew);
         //then
         assertEquals(employeeNew, actual);
     }
@@ -116,13 +116,10 @@ class EmployeeServiceTest {
     @Test
     void should_delete_employee_when_delete_employee_given_employee_id() {
         //given
-        Employee employee = new Employee("vincent", 18, "male", 100);
-        employeeRepository.save(employee);
-        Integer id = 1;
-        employeeRepository.deleteById(id);
+        doNothing().when(employeeRepository).deleteById(1);
         //when
-        employeeService.deleteEmployee(id);
+        employeeService.deleteEmployee(1);
         //then
-        assertNull(employeeRepository.findById(id));
+        verify(employeeRepository,times(1)).deleteById(1);
     }
 }

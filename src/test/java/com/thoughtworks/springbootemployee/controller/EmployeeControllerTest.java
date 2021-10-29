@@ -16,26 +16,26 @@ import org.springframework.test.web.servlet.ResultActions;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
+//TODO delete private
 @SpringBootTest
 @AutoConfigureMockMvc
 public class EmployeeControllerTest {
-    private Employee employee;
-    private Employee employee2;
-    private Employee employee3;
-    private Employee employee4;
-    private Employee employee5;
-    private String url = "/employees";
+    Employee employee;
+    Employee employee2;
+    Employee employee3;
+    Employee employee4;
+    Employee employee5;
+    String url = "/employees";
 
     @Autowired
-    private MockMvc mockMvc;
+    MockMvc mockMvc;
 
     @Autowired
-    private EmployeeRepository employeeRepository;
+    EmployeeRepository employeeRepository;
 
     @Autowired
     ObjectMapper objectMapper;
-
+    //TODO 1/reset id /2
     @BeforeEach
     void setUp() {
 
@@ -55,7 +55,7 @@ public class EmployeeControllerTest {
     void should_return_all_employees_when_find_all_given_two_employees() throws Exception {
 //        //given
 //        //when
-        ResultActions resultActions = mockMvc.perform(get(url));
+        ResultActions resultActions = this.mockMvc.perform(get(url));
 //        //then
         resultActions
                 .andExpect(status().isOk())
