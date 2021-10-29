@@ -1,6 +1,7 @@
 package com.thoughtworks.springbootemployee.controller;
 
 import com.thoughtworks.springbootemployee.dto.EmployeeRequest;
+import com.thoughtworks.springbootemployee.dto.EmployeeResponse;
 import com.thoughtworks.springbootemployee.entity.Employee;
 import com.thoughtworks.springbootemployee.mapper.EmployeeMapper;
 import com.thoughtworks.springbootemployee.service.EmployeeService;
@@ -12,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/employees")
@@ -27,13 +29,15 @@ public class EmployeeController {
     }
 
     @GetMapping
-    public List<Employee> findAllEmployees() {
-        return this.employeeService.findAll();
+    public List<EmployeeResponse> findAllEmployees() {
+        return this.employeeService.findAll().stream()
+                .map(employee -> employeeMapper.toResponse(employee))
+                .collect(Collectors.toList());
     }
 
     @GetMapping("/{id}")
-    public Employee findById(@PathVariable Integer id) {
-        return this.employeeService.findById(id);
+    public EmployeeResponse findById(@PathVariable Integer id) {
+        return  employeeMapper.toResponse(this.employeeService.findById(id));
     }
 
     @GetMapping(params = "gender")
