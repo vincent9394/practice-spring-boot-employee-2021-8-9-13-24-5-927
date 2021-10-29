@@ -3,6 +3,7 @@ package com.thoughtworks.springbootemployee.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.thoughtworks.springbootemployee.entity.Employee;
 import com.thoughtworks.springbootemployee.repository.EmployeeRepository;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +14,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -37,14 +39,16 @@ public class EmployeeControllerTest {
     @BeforeEach
     void setUp() {
 
-        employeeRepository.deleteAll();
         employee = employeeRepository.save(new Employee("vincent1", 18, "Male", 12345));
         employee2 = employeeRepository.save(new Employee("vincent2", 18, "Female", 23456));
         employee3 = employeeRepository.save(new Employee("vincent3", 18, "Male", 34567));
         employee4 = employeeRepository.save(new Employee("vincent4", 18, "Female", 45678));
         employee5 = employeeRepository.save(new Employee("vincent5", 18, "Male", 56789));
+    }
 
-
+    @AfterEach
+    void cleanUp(){
+        employeeRepository.deleteAll();
     }
 
     @Test
@@ -71,8 +75,9 @@ public class EmployeeControllerTest {
     @Test
     void should_return_one_employees_when_find_id_given_certain_id() throws Exception {
         //given
+        String id = "/1";
 //         //when
-        ResultActions resultActions = mockMvc.perform(get(url+ employee.getId()));
+        ResultActions resultActions = mockMvc.perform(get(url + id));
 //        //then
         resultActions
                 .andExpect(status().isOk())
@@ -89,7 +94,7 @@ public class EmployeeControllerTest {
         //given
         String gender = "?gender=Female";
         //when
-        ResultActions resultActions = mockMvc.perform(get(url+gender));
+        ResultActions resultActions = mockMvc.perform(get(url + gender));
         //then
         resultActions
                 .andExpect(status().isOk())
@@ -111,7 +116,7 @@ public class EmployeeControllerTest {
         //given
         String page = "?page=1&size=2";
         //when
-        ResultActions resultActions = mockMvc.perform(get(url+page));
+        ResultActions resultActions = mockMvc.perform(get(url + page));
         //then
         resultActions
                 .andExpect(status().isOk())
@@ -124,8 +129,8 @@ public class EmployeeControllerTest {
                 .andExpect(jsonPath("$.content[1].name").value(employee4.getName()))
                 .andExpect(jsonPath("$.content[1].age").value(employee4.getAge()))
                 .andExpect(jsonPath("$.content[1].gender").value(employee4.getGender()))
-                .andExpect(jsonPath("$.content[1].salary").value(employee4.getSalary()));
-
+                .andExpect(jsonPath("$.content[1].salary").value(employee4.getSalary()))
+        ;
     }
 
     @Test
@@ -153,9 +158,9 @@ public class EmployeeControllerTest {
         //given
         Employee updatedEmployee = employee;
         updatedEmployee.setName("VincentLuk");
-
+        String id ="/1";
         //when
-        ResultActions resultActions = mockMvc.perform(put(url).
+        ResultActions resultActions = mockMvc.perform(put(url+id).
                 contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(updatedEmployee)));
         //then
@@ -174,12 +179,13 @@ public class EmployeeControllerTest {
         //given
         String id = "/1";
         //when
-        ResultActions resultActions = mockMvc.perform(delete(url+id));
+        ResultActions resultActions = mockMvc.perform(delete(url + id));
         //then
         resultActions
                 .andExpect(status().isNoContent())
         ;
     }
+
     @Test
     void should_delete_all_employee_when_delete_given_employees() throws Exception {
         //given

@@ -12,22 +12,25 @@ public class Company {
 
     private String companyName;
 
-    @OneToMany(mappedBy = "company_id")
+    @OneToMany(mappedBy = "companyId")
     private List<Employee> employees;
 
     public Company() {
 
     }
 
-    public Company(Integer companyId, String companyName) {
-        this.companyId = companyId;
-        this.companyName = companyName;
+    public Company(String name) {
+        this.companyId = null;
+        this.companyName = name;
         this.employees = new ArrayList<>();
     }
 
-    public void addEmployeeToCompany(List<Employee> employees) {
-        this.employees.addAll(employees);
+    public Company(String companyName, List<Employee> employeeList) {
+        this.companyId = null;
+        this.companyName = companyName;
+        this.employees = employeeList;
     }
+
 
     public int getCompanyId() {
         return companyId;
@@ -35,6 +38,15 @@ public class Company {
 
     public void setCompanyId(Integer companyId) {
         this.companyId = companyId;
+    }
+
+    public List<Employee> getEmployees() {
+
+        return employees;
+    }
+
+    public void setEmployees(List<Employee> employees) {
+        this.employees = employees;
     }
 
     public String getCompanyName() {
@@ -45,11 +57,24 @@ public class Company {
         this.companyName = companyName;
     }
 
-    public List<Employee> getEmployees() {
-        return employees;
+
+    public void addEmployee(Employee employee) {
+        employee.setCompanyId(this.companyId);
     }
 
-    public void setEmployees(List<Employee> employees) {
-        this.employees = employees;
+    public void setAllEmployeeCompanyId() {
+        for (int i = 0; i < employees.size(); i++) {
+            employees.get(i).setCompanyId(companyId);
+        }
+    }
+
+
+    public void addEmployeeToCompany(List<Employee> employees) {
+        this.employees.addAll(employees);
+    }
+
+    public void updateData (Company company){
+        this.companyName = company.companyName;
+        this.employees = company.employees;
     }
 }

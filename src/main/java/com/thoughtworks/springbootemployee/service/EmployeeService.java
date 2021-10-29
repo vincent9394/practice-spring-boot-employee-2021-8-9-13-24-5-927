@@ -49,15 +49,18 @@ public class EmployeeService {
         }
         return employeeRepository.save(originEmployee);
     }
-//
+
+    //
     public void deleteEmployee(Integer id) {
         this.employeeRepository.deleteById(id);
     }
-//
+
+    //
     public void deleteAllEmployee() {
         this.employeeRepository.deleteAll();
     }
-//
+
+    //
     public PageImpl<Employee> findPagingEmployees(Pageable pageable) {
         return this.employeeRepository.findAll(pageable);
     }

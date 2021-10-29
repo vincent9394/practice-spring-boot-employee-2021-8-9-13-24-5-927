@@ -1,13 +1,10 @@
 package com.thoughtworks.springbootemployee.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.thoughtworks.springbootemployee.entity.Employee;
 import com.thoughtworks.springbootemployee.repository.EmployeeRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.MockMvc;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class CompanyControllerTest {
     @Autowired
@@ -24,10 +21,11 @@ class CompanyControllerTest {
         companyRepository.deleteAll();
 
     }
+
     @Test
     void findAllCompanies() {
         //given
-        companyRepository.save(1,"agileexlab");
+//        companyRepository.save(1, "agileexlab");
 
 
         //when
