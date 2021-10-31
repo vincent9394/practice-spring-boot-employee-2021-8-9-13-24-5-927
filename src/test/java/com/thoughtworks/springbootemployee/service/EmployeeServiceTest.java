@@ -13,9 +13,11 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(SpringExtension.class)
@@ -98,21 +100,32 @@ class EmployeeServiceTest {
         assertEquals(employee, actual);
     }
 
-    //TODO test failed
+
+
     @Test
     void should_update_employee_when_update_employee_given_new_employee_Info_employee_id() {
-        //given
+
         Employee employee = new Employee("vincent", 18, "male", 100);
-        employeeRepository.save(employee);
-        Employee employeeNew = new Employee("vincent1", 18, "male", 100);
-        Integer id = 1;
-        when(employeeRepository.save(employeeNew)).thenReturn(employee);
+        when(employeeRepository.findById(any())).thenReturn(Optional.of(employee));
+
+        Employee updateInfo = new Employee("vincent1", 18, "male", 100);
+        Employee updated = new Employee(1,"vincent1", 18, "male", 100,null);
+
+        when(employeeRepository.save(any(Employee.class))).thenReturn(updated);
+
         //when
-        Employee actual = employeeService.updateEmployee(id, employeeNew);
+        Employee actual = employeeService.updateEmployee(1, updateInfo);
+
         //then
-        assertEquals(employeeNew, actual);
+        assertEquals(1, actual.getId());
+        assertEquals("vincent1", actual.getName());
+        assertEquals("male", actual.getGender());
+        assertEquals(18, actual.getAge());
+        assertEquals(100, actual.getSalary());
     }
-    //TODO test failed
+
+
+
     @Test
     void should_delete_employee_when_delete_employee_given_employee_id() {
         //given

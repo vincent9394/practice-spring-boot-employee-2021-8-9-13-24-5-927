@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class EmployeeService {
@@ -41,6 +42,9 @@ public class EmployeeService {
         if (updatedEmployee.getName() != null) {
             originEmployee.setName(updatedEmployee.getName());
         }
+        if (updatedEmployee.getGender() != null) {
+            originEmployee.setGender(updatedEmployee.getGender());
+        }
         if (updatedEmployee.getAge() != null) {
             originEmployee.setAge(updatedEmployee.getAge());
         }
@@ -51,13 +55,17 @@ public class EmployeeService {
     }
 
     //
-    public void deleteEmployee(Integer id) {
-        this.employeeRepository.deleteById(id);
+    public Employee deleteEmployee(Integer id) {
+        Optional<Employee> deletedEmployee = employeeRepository.findById(id);
+        employeeRepository.deleteById(id);
+        return deletedEmployee.orElse(null);
     }
 
     //
-    public void deleteAllEmployee() {
-        this.employeeRepository.deleteAll();
+    public List<Employee> deleteAllEmployee() {
+        List<Employee> deletedEmployees = employeeRepository.findAll();
+        employeeRepository.deleteAll();
+        return deletedEmployees;
     }
 
     //

@@ -10,15 +10,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
 //TODO delete private
 @SpringBootTest
 @AutoConfigureMockMvc
+@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 public class EmployeeControllerTest {
     Employee employee;
     Employee employee2;
@@ -38,7 +40,7 @@ public class EmployeeControllerTest {
     //TODO 1/reset id /2
     @BeforeEach
     void setUp() {
-
+        employeeRepository.deleteAll();
         employee = employeeRepository.save(new Employee("vincent1", 18, "Male", 12345));
         employee2 = employeeRepository.save(new Employee("vincent2", 18, "Female", 23456));
         employee3 = employeeRepository.save(new Employee("vincent3", 18, "Male", 34567));
@@ -136,8 +138,7 @@ public class EmployeeControllerTest {
     @Test
     void should_add_one_employee_when_post_given_employee_info() throws Exception {
         //given
-        Employee newEmployee = employeeRepository.save(new Employee("vincent6", 18, "Male", 56789));
-
+        Employee newEmployee = employeeRepository.save(new Employee("vincent6", 18, "Male", 567890));
         //when
         ResultActions resultActions = mockMvc.perform(post(url).
                 contentType(MediaType.APPLICATION_JSON)
@@ -145,7 +146,7 @@ public class EmployeeControllerTest {
         //then
         resultActions
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(newEmployee.getId()))
+                .andExpect(jsonPath("$.id").value(newEmployee.getId()+1))
                 .andExpect(jsonPath("$.name").value(newEmployee.getName()))
                 .andExpect(jsonPath("$.age").value(newEmployee.getAge()))
                 .andExpect(jsonPath("$.gender").value(newEmployee.getGender()))
