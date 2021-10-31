@@ -19,13 +19,13 @@ public class CompanyMapper {
         return company;
     }
 
-    public CompanyResponse toResponse(Company company){
-        CompanyResponse companyResponse = new CompanyResponse();
-
-        companyResponse.setCompanyName();
-        companyResponse.setName(company.getName());
-        companyResponse.setEmployees(company.getEmployess().stream().map(employee -> cmployeeMapper.toResponse));
-
-        return companyResponse;
-    }
+//    public CompanyResponse toResponse(Company company){
+//        CompanyResponse companyResponse = new CompanyResponse();
+//
+//        companyResponse.setCompanyName();
+//        companyResponse.setName(company.getName());
+//        companyResponse.setEmployees(company.getEmployess().stream().map(employee -> cmployeeMapper.toResponse));
+//
+//        return companyResponse;
+//    }
 }
