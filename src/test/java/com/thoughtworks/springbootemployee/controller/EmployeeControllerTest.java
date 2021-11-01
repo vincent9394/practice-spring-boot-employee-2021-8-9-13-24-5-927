@@ -15,7 +15,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 //TODO delete private
 @SpringBootTest
@@ -37,6 +38,7 @@ public class EmployeeControllerTest {
 
     @Autowired
     ObjectMapper objectMapper;
+
     //TODO 1/reset id /2
     @BeforeEach
     void setUp() {
@@ -49,7 +51,7 @@ public class EmployeeControllerTest {
     }
 
     @AfterEach
-    void cleanUp(){
+    void cleanUp() {
         employeeRepository.deleteAll();
     }
 
@@ -146,7 +148,7 @@ public class EmployeeControllerTest {
         //then
         resultActions
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(newEmployee.getId()+1))
+                .andExpect(jsonPath("$.id").value(newEmployee.getId() + 1))
                 .andExpect(jsonPath("$.name").value(newEmployee.getName()))
                 .andExpect(jsonPath("$.age").value(newEmployee.getAge()))
                 .andExpect(jsonPath("$.gender").value(newEmployee.getGender()))
@@ -159,9 +161,9 @@ public class EmployeeControllerTest {
         //given
         Employee updatedEmployee = employee;
         updatedEmployee.setName("VincentLuk");
-        String id ="/1";
+        String id = "/1";
         //when
-        ResultActions resultActions = mockMvc.perform(put(url+id).
+        ResultActions resultActions = mockMvc.perform(put(url + id).
                 contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(updatedEmployee)));
         //then

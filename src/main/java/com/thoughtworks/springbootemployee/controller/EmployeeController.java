@@ -32,19 +32,22 @@ public class EmployeeController {
 
     @GetMapping
     public List<EmployeeResponse> findAllEmployees() {
-        return this.employeeService.findAll().stream()
+        return this.employeeService.findAll()
+                .stream()
                 .map(employee -> employeeMapper.toResponse(employee))
                 .collect(Collectors.toList());
     }
 
     @GetMapping("/{id}")
     public EmployeeResponse findById(@PathVariable Integer id) {
-        return  employeeMapper.toResponse(this.employeeService.findById(id));
+        return employeeMapper.toResponse(
+                this.employeeService.findById(id));
     }
 
     @GetMapping(params = "gender")
-    public List<EmployeeResponse> findByGender(@RequestParam String gender ) {
-        return this.employeeService.findAllByGender(gender).stream()
+    public List<EmployeeResponse> findByGender(@RequestParam String gender) {
+        return this.employeeService.findAllByGender(gender)
+                .stream()
                 .map(employee -> employeeMapper.toResponse(employee))
                 .collect(Collectors.toList());
 
@@ -52,11 +55,11 @@ public class EmployeeController {
 
     @GetMapping(params = {"page", "size"})
     public PageImpl<EmployeeResponse> findByPageAndPageSize(@PageableDefault Pageable pageable) {
-        Page<Employee> employees =employeeService.findPagingEmployees(pageable);
+        Page<Employee> employees = employeeService.findPagingEmployees(pageable);
         List<EmployeeResponse> employeeResponses = employees.getContent().stream()
                 .map(employee -> employeeMapper.toResponse(employee))
                 .collect(Collectors.toList());
-        return new PageImpl<>(employeeResponses,employees.getPageable(),employees.getTotalElements());
+        return new PageImpl<>(employeeResponses, employees.getPageable(), employees.getTotalElements());
 
     }
 

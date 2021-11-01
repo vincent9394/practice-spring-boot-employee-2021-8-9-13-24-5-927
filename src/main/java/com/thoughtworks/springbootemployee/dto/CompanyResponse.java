@@ -9,7 +9,7 @@ public class CompanyResponse {
     private Integer employeeNumber;
     private List<Employee> employees;
 
-    public CompanyResponse(){
+    public CompanyResponse() {
 
     }
 
